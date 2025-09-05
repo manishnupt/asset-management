@@ -1,0 +1,5 @@
+@Library(value="ci@master", changelog=false) _
+helm_generic([
+    repositoryUrl: "https://chartmuseum.mgmt.pp.hrms.work/",
+    directoryPath: "charts/asset-mgmt/"
+])

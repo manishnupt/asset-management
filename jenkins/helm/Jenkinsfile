@@ -1,0 +1,9 @@
+@Library(value="ci@master", changelog=false) _
+
+helm_hrms_generic([
+    directoryPath: "charts/asset-mgmt",
+    imageName: "mynx-use1-pp-asset-mgmt-ecr",
+    app: "asset-mgmt",
+    prefix: "mynx-use1",
+    image_tag_helm_path: ".Deployment.containers.asset-mgmt.image.tag"
+])

@@ -1,0 +1,52 @@
+global: {}
+fullnameOverride: ""
+ServiceAccount:
+  automountServiceAccountToken: true
+  name: cmp-mgmt
+Deployment:
+  name: cmp-mgmt
+  annotations:
+    instrumentation.opentelemetry.io/inject-java: "trace/default"
+    vault.security.banzaicloud.io/vault-addr: https://vault.secret-manager.svc.cluster.local:8200
+    vault.security.banzaicloud.io/vault-role: vault_access
+    vault.security.banzaicloud.io/vault-skip-verify: "true"
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  containers:
+    cmp-mgmt:
+      image:
+        registry: "742428948447.dkr.ecr.ap-south-1.amazonaws.com"
+        repository: "mynx-use1-hrms-stage-company-mgmt-ecr"
+        tag: "v1.1"
+      imagePullPolicy: IfNotPresent
+      ports:
+        - containerPort: 9910
+          protocol: TCP
+          name: http
+      resources:
+        limits:
+          cpu: "2"
+          memory: "4Gi"
+        requests:
+          cpu: "1"
+          memory: "2Gi"
+      env:
+        DB_URL: "jdbc:postgresql://postgres-service:5432/company_mgmt"
+        DB_USERNAME: "postgres"
+        DB_PASSWORD: "admin"
+        AUTH_SERVICE_BASE_URL: "http://iam-service:7077/iamcontroller"
+        SPRING_JPA_HIBERNATE_DDL_AUTO: "none"
+        DEFAULT_TENANT: "tomato"
+        TENANT_CONFIG_API_URL: "https://tenant.pp.hrms.work/api/v1/tenants/databases"
+        TENANT_MANAGEMENT: "https://tenant.pp.hrms.work"
+Service:
+  cmp-mgmt:
+    name: cmp-mgmt
+    ports:
+      - port: 80
+        targetPort: 9910
+    sessionAffinity: None
