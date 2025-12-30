@@ -71,7 +71,9 @@ public class SecurityConfig {
         configuration.setAllowedOrigins(Arrays.asList(
                 "http://localhost:3000",
                 "http://localhost:4200",
-                "http://localhost:8080"
+                "http://localhost:8080",
+                "https://*.tenant.pp.hrms.work" // Any tenant subdomain
+
                 // Add your production frontend URL here
         ));
 
