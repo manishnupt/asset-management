@@ -109,7 +109,7 @@ public class AssetController {
         }
     }
     //api to get assets by employee id
-    @PreAuthorize("hasRole('XYZ')")
+    @PreAuthorize("hasRole('VIEW_MY_ASSIGNED_ASSETS')")
     @GetMapping("/employee")
     public ResponseEntity<List<AssetResponse>> getAssetsByEmployee(@RequestParam String employeeId) {
         List<AssetResponse> assetRespone = assetService.getAssetsByEmployee(employeeId);
