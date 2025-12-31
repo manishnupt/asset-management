@@ -3,6 +3,7 @@ package com.hrms.asset.management.utility;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
@@ -10,7 +11,7 @@ import java.io.IOException;
 
 @Log4j2
 @Component
-@Order(1)
+@Order(Ordered.HIGHEST_PRECEDENCE)  // ← Changed from @Order(1)
 class TenantFilter implements Filter {
 
     @Override
