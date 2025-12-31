@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import com.hrms.asset.management.request.AssetAllocationRequest;
@@ -107,7 +108,8 @@ public class AssetController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    //api to get assets by employee id
+    @PreAuthorize("hasRole('XYZ')")
     @GetMapping("/employee")
     public ResponseEntity<List<AssetResponse>> getAssetsByEmployee(@RequestParam String employeeId) {
         List<AssetResponse> assetRespone = assetService.getAssetsByEmployee(employeeId);
