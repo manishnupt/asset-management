@@ -32,6 +32,8 @@ import java.util.stream.Collectors;
 public class SecurityConfig {
 
     private final MultiTenantJwtDecoder multiTenantJwtDecoder;
+    private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;  // ← ADD THIS
+
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -48,10 +50,15 @@ public class SecurityConfig {
                         .anyRequest().authenticated()
                 )
                 .oauth2ResourceServer(oauth2 -> oauth2
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)  // ← ADD THIS
                         .jwt(jwt -> jwt
                                 .decoder(multiTenantJwtDecoder)
                                 .jwtAuthenticationConverter(jwtAuthenticationConverter())
                         )
+                )
+                .exceptionHandling(exceptions -> exceptions  // ← ADD THIS BLOCK
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+
                 );
 
         return http.build();
