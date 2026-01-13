@@ -116,5 +116,6 @@ public class AssetController {
         return ResponseEntity.status(HttpStatus.OK).body(assetRespone);
 
     }
+    
 
 }
